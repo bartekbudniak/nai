@@ -108,13 +108,10 @@ class Network:
                         self.sigmoidFunction_3()
                         if self.calcTotalError(numberOfSample) > previousTotalError:
                             self.weight_1[row][column] = temp
-                self.writeResultInFile(numberOfSample)
+                        self.sigmoidFunction_2()
+                        self.sigmoidFunction_3()
+                        previousTotalError = self.calcTotalError(numberOfSample)
 
-            for numberOfSample in range(0, self.numberOfTests):
-                self.downloadData(numberOfSample)
-                self.sigmoidFunction_2()
-                self.sigmoidFunction_3()
-                previousTotalError = self.calcTotalError(numberOfSample)
                 for row in range(0, self.size_3):
                     for column in range(0, self.size_2):
                         temp = self.weight_2[row][column]
@@ -123,8 +120,10 @@ class Network:
                         self.sigmoidFunction_3()
                         if self.calcTotalError(numberOfSample) > previousTotalError:
                             self.weight_2[row][column] = temp
+                        self.sigmoidFunction_2()
+                        self.sigmoidFunction_3()
+                        previousTotalError = self.calcTotalError(numberOfSample)
                 self.writeResultInFile(numberOfSample)
-
         self.saveWeightsInFile()
 
         '''for i in range(1, 10):
