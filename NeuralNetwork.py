@@ -25,7 +25,6 @@ class Network:
                 for column in range(0, self.size_1):
                     self.weight_1[row][column] = float(lines1[i])
                     i = i + 1
-            #file1.close()
 
             file2 = open('w2.txt', 'r').read()
             lines2 = file2.split('\n')
@@ -34,28 +33,21 @@ class Network:
                 for column in range(0, self.size_2):
                     self.weight_2[row][column] = float(lines2[i])
                     i = i + 1
-            #file2.close()
 
     def downloadData(self, numberOfSample):
         nameOfImage = str(numberOfSample) + ".bmp"
         image = Image.open(nameOfImage, "r")
         pix_val = list(image.getdata())
-        #print(pix_val)
-        #pix_val_flat = [x for sets in pix_val for x in sets]
         for i in range(0, self.size_1):
             self.x_1[i] = float(pix_val[i][0])/255.0
-            #print(self.x_1[i])
 
     def sigmoidFunction_2(self):
         for numberOfNeuron in range(0, self.size_2):
             sum = 0.0
             for i in range(0, self.size_1):
                 sum = sum + self.weight_1[numberOfNeuron][i] * self.x_1[i]
-                #print(sum)
             sum = sum + self.bias_2[numberOfNeuron]
-            #print(numpy.exp(-1*sum))
             self.x_2[numberOfNeuron] = 1.0 / (1.0 + numpy.exp(-1*sum))
-            #print(self.x_2[numberOfNeuron] )
 
     def sigmoidFunction_3(self):
         for numberOfNeuron in range(0, self.size_3):
@@ -75,7 +67,7 @@ class Network:
 
     def writeResultInFile(self, numberOfSample):
         file = open("results.txt", "a")
-        file.write('Sample number {0}: {1:4f} vs. {2:4f}\n'.format(numberOfSample, self.x_3[0], self.x_3[1])) #zmienić przy zmianie liczby wyjść
+        file.write('Sample number {0}: {1:4f} vs. {2:4f}\n'.format(numberOfSample, self.x_3[0], self.x_3[1])) 
         file.close()
 
     def saveWeightsInFile(self):
@@ -125,75 +117,16 @@ class Network:
                         previousTotalError = self.calcTotalError(numberOfSample)
                 self.writeResultInFile(numberOfSample)
         self.saveWeightsInFile()
-
-        '''for i in range(1, 10):
-            for row in range(0, self.size_2):
-                for column in range(0, self.size_1):
-                    errorForAllData = 0.0
-                    for numberOfSample in range(0, self.numberOfTests):
-                        self.downloadData(numberOfSample)
-                        self.sigmoidFunction_2()
-                        self.sigmoidFunction_3()
-                        errorForAllData += self.calcTotalError(numberOfSample)
-
-                    temp = self.weight_1[row][column]
-                    self.weight_1[row][column] = random.random() / 10.0
-
-                    newErrorForAllData = 0.0
-                    for numberOfSample in range(0, self.numberOfTests):
-                        self.downloadData(numberOfSample)
-                        self.sigmoidFunction_2()
-                        self.sigmoidFunction_3()
-                        newErrorForAllData += self.calcTotalError(numberOfSample)
-
-                    if newErrorForAllData > errorForAllData:
-                        self.weight_1[row][column] = temp
-
-            for row in range(0, self.size_3):
-                for column in range(0, self.size_2):
-                    errorForAllData = 0.0
-                    for numberOfSample in range(0, self.numberOfTests):
-                        self.downloadData(numberOfSample)
-                        self.sigmoidFunction_2()
-                        self.sigmoidFunction_3()
-                        errorForAllData += self.calcTotalError(numberOfSample)
-
-                    temp = self.weight_2[row][column]
-                    self.weight_2[row][column] = random.random() / 10.0
-
-                    newErrorForAllData = 0.0
-                    for numberOfSample in range(0, self.numberOfTests):
-                        self.downloadData(numberOfSample)
-                        self.sigmoidFunction_2()
-                        self.sigmoidFunction_3()
-                        newErrorForAllData += self.calcTotalError(numberOfSample)
-
-                    if newErrorForAllData > errorForAllData:
-                        self.weight_2[row][column] = temp
-                for row in range(0, self.size_3):
-                    for column in range(0, self.size_2):
-                        previousTotalError = self.calcTotalError(numberOfSample)
-                        temp = self.weight_2[row][column]
-                        self.weight_2[row][column] = random.random() / 10.0
-                        self.sigmoidFunction_2()
-                        self.sigmoidFunction_3()
-                        if self.calcTotalError(numberOfSample) > previousTotalError:
-                            self.weight_2[row][column] = temp'''
-
-
+ 
     def calcTotalError(self, numberOfSample):
         totalError = 0.0
-        #file = open("learningData.txt", "r")
         if numberOfSample % 2 == 0:
-            output = [1, 0]                                 #wpisane na sztywno:(
+            output = [1, 0]  
         else:
             output = [0, 1]
-        #file.close()
         for i in range(0, self.size_3):
             totalError += 0.5*(self.x_3[i] - output[i])**2
         return totalError
-
-    #def backPropagation(self):
 
     def feedForward(self):
         file = open("results.txt", "a")
@@ -210,20 +143,5 @@ class Network:
 
 network = Network(0)
 network.learn()
-'''print(network.size_1)
-print(network.size_2)
-print(network.size_3)
-print(network.bias_2)
-print(network.bias_3)
-print(network.weight_1)
-print(network.weight_2)
-print(network.x_1)
-print(network.x_2)
-print(network.x_3)'''
 network2 = Network(1)
 network2.feedForward()
-
-
-
-
-
